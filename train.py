@@ -5,7 +5,7 @@ from . import wSDRloss
 
 
 # modified trainer from https://github.com/usuyama/pytorch-unet
-def train_model(model, optimizer, scheduler, num_epochs=25, save_best=True):
+def train_model(model, optimizer, scheduler, dataloaders, num_epochs=25, save_best=True):
     best_model_wts = copy.deepcopy(model.state_dict())
     best_loss = 1e10
     epoch_loss_list_train = []
