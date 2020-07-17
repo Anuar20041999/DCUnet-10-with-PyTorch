@@ -1,6 +1,10 @@
 import librosa
 import torch
+import os
 from torch.utils.data import Dataset, DataLoader
+
+def listdir_fullpath(d):
+    return sorted([os.path.join(d, f) for f in os.listdir(d)])
 
 def make_noised(data, noise, dB=0):
     noise, rate = librosa.load(noise, sr=16000)
