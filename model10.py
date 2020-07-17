@@ -1,7 +1,7 @@
 import torch
 import torchaudio
 from . import ComplexLayers
-from complexLayers import ComplexBatchNorm2d, ComplexSequential
+from complexPyTorch.complexLayers import ComplexBatchNorm2d, ComplexSequential
 
 
 def enc(in_channels, out_channels, kernel, stride):
