@@ -1,6 +1,7 @@
 import torch
 import copy
 import time
+from . import wSDRloss
 
 
 # modified trainer from https://github.com/usuyama/pytorch-unet
@@ -41,7 +42,7 @@ def train_model(model, optimizer, scheduler, num_epochs=25, save_best=True):
                 with torch.set_grad_enabled(phase == 'train'):
                     pred = model(noised_data)
                     
-                    loss, loss1, loss2 = wSDRloss(noised_data, clean_data, pred)
+                    loss, loss1, loss2 = wSDRloss.wSDRloss(noised_data, clean_data, pred)
                     loss_item = loss.data.cpu().numpy()
                     loss1_item = loss1.data.cpu().numpy()
                     loss2_item = loss2.data.cpu().numpy()
