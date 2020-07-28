@@ -2,8 +2,9 @@ import torch
 import copy
 import time
 from . import wSDRloss
+import matplotlib.pyplot as plt
 
-
+device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 # modified trainer from https://github.com/usuyama/pytorch-unet
 def train_model(model, optimizer, scheduler, dataloaders, num_epochs=25, save_best=True):
     best_model_wts = copy.deepcopy(model.state_dict())
