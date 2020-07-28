@@ -27,6 +27,7 @@ class Dataset_for_speech(Dataset):
     def __init__(self, clean_speech_paths, noised_speech_paths, sr=16000):
         self.clean_speech_paths = clean_speech_paths
         self.noised_speech_paths = noised_speech_paths
+        self.sr = sr
 
     def __len__(self):
         return len(self.clean_speech_paths)
