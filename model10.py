@@ -1,21 +1,19 @@
 import torch
 import torchaudio
-from . import ComplexLayers
-from .complexPyTorch.complexLayers import ComplexBatchNorm2d, ComplexSequential
 
 
 def enc(in_channels, out_channels, kernel, stride):
     return (ComplexSequential(
-        ComplexLayers.ComplexConv1d(in_channels, out_channels, kernel, stride=stride),
+        ComplexConv1d(in_channels, out_channels, kernel, stride=stride),
         ComplexBatchNorm2d(out_channels),
-        ComplexLayers.complex_LeakyReLU()
+        complex_LeakyReLU()
         ))
 
 def dec(in_channels, out_channels, kernel, stride, output_padding):
     return (ComplexSequential(
-        ComplexLayers.ComplexConvTranspose1d(in_channels, out_channels, kernel, stride=stride, output_padding=output_padding),
+        ComplexConvTranspose1d(in_channels, out_channels, kernel, stride=stride, output_padding=output_padding),
         ComplexBatchNorm2d(out_channels),
-        ComplexLayers.complex_LeakyReLU()
+        complex_LeakyReLU()
         ))
 
 
@@ -29,13 +27,13 @@ class ComplexUNet(torch.nn.Module):
         self.enc4 = enc(64, 64, (5, 3), (2,2))
         self.enc5 = enc(64, 64, (5, 3), (2,1))
 
-        self.dec1 = ComplexLayers.ComplexConvTranspose1d(32+32, 1, (7, 5), (2,2), output_padding=(0,1)) #out?
+        self.dec1 = ComplexConvTranspose1d(32+32, 1, (7, 5), (2,2), output_padding=(0,1)) #out?
         self.dec2 = dec(64+64, 32, (7, 5), (2,2), (1, 0))
         self.dec3 = dec(64+64, 64, (5, 3), (2,2), (1, 1))
         self.dec4 = dec(64+64, 64, (5, 3), (2,2), (1, 1))
         self.dec5 = dec(64, 64, (5, 3), (2,1), (1, 0))
 
-        self.spec = torchaudio.transforms.Spectrogram(n_fft = 1024, win_length=1024, hop_length=256, power=None)
+        self.spec = torchaudio.transforms.Spectrogram(n_fft=1024, win_length=1024, hop_length=256, power=None)
     def forward(self, input):
         length = input.shape[1]
 
